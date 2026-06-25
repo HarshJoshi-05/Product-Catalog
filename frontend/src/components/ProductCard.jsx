@@ -1,6 +1,6 @@
 import "./ProductCard.css";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onDelete }) => {
 
     const formattedPrice = new Intl.NumberFormat("en-IN", {
         style: "currency",
@@ -18,6 +18,7 @@ const ProductCard = ({ product }) => {
     );
 
     return (
+
         <div className="product-card">
 
             <div className="product-header">
@@ -38,8 +39,17 @@ const ProductCard = ({ product }) => {
                 Updated {formattedDate}
             </div>
 
+            <button
+                className="delete-btn"
+                onClick={() => onDelete(product._id)}
+            >
+                🗑 Delete Product
+            </button>
+
         </div>
+
     );
+
 };
 
 export default ProductCard;

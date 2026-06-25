@@ -48,3 +48,43 @@
     color:#94a3b8;
     font-size:.85rem;
 }
+
+.delete-btn{
+
+    width:100%;
+
+    margin-top:18px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#7a1212;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.delete-btn:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
+
+}
+
+.delete-btn:active{
+
+    transform:scale(.98);
+
+}

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 
 import "./App.css";
 
-import { fetchProducts } from "./services/api";
+import { fetchProducts, deleteProduct } from "./services/api";
 
 import ProductList from "./components/ProductList";
 import CategoryFilter from "./components/CategoryFilter";
 import Pagination from "./components/Pagination";
+import ProductModal from "./components/ProductModal";
 
 function App() {
 
@@ -21,6 +22,8 @@ function App() {
 
   const [error, setError] = useState("");
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const loadProducts = async (
     selectedCategory = category,
     cursor = null,
@@ -34,7 +37,7 @@ function App() {
 
       const data = await fetchProducts(
         selectedCategory,
-        cursor?.cursorUpdatedAt,
+        cursor?.cursorCreatedAt,
         cursor?.cursorId
       );
 
@@ -80,13 +83,7 @@ function App() {
 
   const handlePrevious = () => {
 
-    if (cursorHistory.length === 0) {
-
-      loadProducts(category, null, true);
-
-      return;
-
-    }
+    if (cursorHistory.length === 0) return;
 
     const history = [...cursorHistory];
 
@@ -103,17 +100,66 @@ function App() {
 
   };
 
+  const handleDelete = async (id) => {
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+      await deleteProduct(id);
+
+      await loadProducts(category, null, true);
+
+      alert("Product deleted successfully.");
+
+    }
+
+    catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
+  const handleProductAdded = async () => {
+
+    setIsModalOpen(false);
+
+    await loadProducts(category, null, true);
+
+  };
+
   return (
 
     <div className="app">
 
       <header>
 
-        <h1>Product Catalog</h1>
+        <div className="header-top">
 
-        <p>
-          Browse Products 
-        </p>
+          <div>
+
+            <h1>Product Catalog</h1>
+
+            <p>
+              Browse Products
+            </p>
+
+          </div>
+
+          <button
+            className="open-modal-btn"
+            onClick={() => setIsModalOpen(true)}
+          >
+            + Add Product
+          </button>
+
+        </div>
 
       </header>
 
@@ -143,25 +189,29 @@ function App() {
       ) : (
 
         <>
+
           <ProductList
             products={products}
+            onDelete={handleDelete}
           />
 
           <Pagination
-
             onPrevious={handlePrevious}
-
             onNext={handleNext}
-
             hasPrevious={cursorHistory.length > 0}
-
             hasNext={nextCursor !== null}
-
             loading={loading}
-
           />
+
         </>
+
       )}
+
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onProductAdded={handleProductAdded}
+      />
 
     </div>
 

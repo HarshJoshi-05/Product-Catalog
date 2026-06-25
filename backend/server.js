@@ -21,7 +21,7 @@ app.use(
             "https://product-catalog-pi-liard.vercel.app",
             "https://product-catalog-62mpw51ri-harsh-joshi.vercel.app"
         ],
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     })
 );

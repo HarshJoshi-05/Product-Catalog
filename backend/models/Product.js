@@ -15,18 +15,21 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
+
 }, {
     timestamps: true
 });
 
+// Cursor Pagination Index
 productSchema.index({
-    updatedAt: -1,
+    createdAt: -1,
     _id: -1
 });
 
+// Category + Cursor Pagination Index
 productSchema.index({
     category: 1,
-    updatedAt: -1,
+    createdAt: -1,
     _id: -1
 });
 
