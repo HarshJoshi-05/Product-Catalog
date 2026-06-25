@@ -1,9 +1,7 @@
 const Product = require("../models/Product");
 
 const getProducts = async (req, res) => {
-
     try {
-
         const {
             category,
             cursorCreatedAt,
@@ -13,43 +11,30 @@ const getProducts = async (req, res) => {
         const query = {};
 
         if (category) {
-
             query.category = category;
-
         }
 
         if (cursorCreatedAt && cursorId) {
-
             query.$and = [
-
                 ...(category ? [{ category }] : []),
-
                 {
-
                     $or: [
-
                         {
                             createdAt: {
                                 $lt: new Date(cursorCreatedAt)
                             }
                         },
-
                         {
                             createdAt: new Date(cursorCreatedAt),
-
                             _id: {
                                 $lt: cursorId
                             }
                         }
-
                     ]
-
                 }
-
             ];
 
             delete query.category;
-
         }
 
         const products = await Product.find(query)
@@ -63,41 +48,24 @@ const getProducts = async (req, res) => {
         let nextCursor = null;
 
         if (products.length === 20) {
-
             const lastProduct = products[products.length - 1];
 
             nextCursor = {
-
                 cursorCreatedAt: lastProduct.createdAt,
-
                 cursorId: lastProduct._id
-
             };
-
         }
 
         res.status(200).json({
-
             products,
-
             nextCursor
-
         });
-
-    }
-
-    catch (error) {
-
+    } catch (error) {
         res.status(500).json({
-
             success: false,
-
             message: error.message
-
         });
-
     }
-
 };
 
 const createProduct = async (req, res) => {
