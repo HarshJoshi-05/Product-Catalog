@@ -1,0 +1,35 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:Inter,Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+
+    background:#0f172a;
+
+    color:#f8fafc;
+
+    min-height:100vh;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+select{
+
+    font-family:inherit;
+
+}
