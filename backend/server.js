@@ -12,18 +12,20 @@ const app = express();
 connectDB();
 
 // Middlewares
-const cors = require("cors");
+
 
 app.use(
     cors({
         origin: [
             "http://localhost:5173",
-            "https://product-catalog-pi-liard.vercel.app"
+            "https://product-catalog-pi-liard.vercel.app",
+            "https://product-catalog-62mpw51ri-harsh-joshi.vercel.app"
         ],
         methods: ["GET", "POST"],
         credentials: true
     })
 );
+
 app.use(express.json());
 
 // Routes
